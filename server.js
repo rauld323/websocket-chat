@@ -26,6 +26,11 @@ io.on('connection', socket => {
 	socket.on('disconnect', () => {
 		io.emit('message', 'A being has left...');
 	});
+
+	// This will listen for chatmessages that were sent through the Input
+	socket.on('chatMessage', msg => {
+		io.emit('message', msg);
+	});
 });
 
 const PORT = 3000 || process.env.PORT;
