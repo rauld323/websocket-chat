@@ -1,6 +1,6 @@
 // using the DOM we call in the form
 const chatForm = document.getElementById('chat-form');
-
+const chatMessages = document.querySelector('.chat-messages');
 const socket = io();
 
 // socketIo calls listens for message and then passes the consoleLog on line 'server.js' line 19
@@ -8,6 +8,9 @@ const socket = io();
 socket.on('message', message => {
 	console.log(message);
 	outputMessage(message);
+
+	//Controls that the scroll in the chat stop when it reaches its height
+	chatMessages.scrollTop = chatMessages.scrollHeight;
 });
 
 //Message was Submitted
@@ -20,6 +23,11 @@ chatForm.addEventListener('submit', e => {
 
 	// Emit message to server
 	socket.emit('chatMessage', msg);
+
+	// Makes sure that input is deleted after sent
+	e.target.elements.msg.value = '';
+	// This creates an autofocus to the input
+	e.target.elements.msg.focus() = '';
 });
 
 //Output Message to DOM
